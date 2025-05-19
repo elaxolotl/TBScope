@@ -62,7 +62,7 @@ fun OnBoardingPagePreview() {
             page = Page(
             title = "Lorem Ipsum is simply dummy",
             description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            image = R.drawable.onboarding1
+            image = R.drawable.onboarding_tbs
         )
         )
     }
