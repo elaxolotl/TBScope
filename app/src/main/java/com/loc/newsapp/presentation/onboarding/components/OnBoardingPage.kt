@@ -32,7 +32,7 @@ fun OnBoardingPage(
         Image(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.60f),
+                .fillMaxHeight(0.50f),
             painter = painterResource(id = page.image),
             contentDescription = null,
             contentScale = ContentScale.Crop
@@ -62,7 +62,7 @@ fun OnBoardingPagePreview() {
             page = Page(
             title = "Lorem Ipsum is simply dummy",
             description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            image = R.drawable.onboarding_tbs
+            image = R.drawable.onboarding3
         )
         )
     }
