@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 data class SearchState(
     val searchQuery: String = "",
-    val articles: Flow<PagingData<Article>>? = null
+    val allArticles: List<Article> = emptyList(),
+    val filteredArticles: List<Article> = emptyList()
 )

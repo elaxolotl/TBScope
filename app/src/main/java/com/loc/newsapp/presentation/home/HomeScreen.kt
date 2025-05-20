@@ -1,5 +1,6 @@
 package com.loc.newsapp.presentation.home
 
+import android.content.Context
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -41,29 +42,20 @@ import com.loc.newsapp.presentation.Dimens.MediumPadding1
 import com.loc.newsapp.presentation.common.ArticlesList
 import com.loc.newsapp.presentation.common.SearchBar
 import com.loc.newsapp.presentation.navgraph.Route
+import com.loc.newsapp.util.loadArticlesFromJson
 import kotlinx.coroutines.delay
 
 
 @Composable
 fun HomeScreen(
-    articles: LazyPagingItems<Article>,
+    context: Context,
     state: HomeState,
     event: (HomeEvent) -> Unit,
     navigateToSearch: () -> Unit,
     navigateToDetails: (Article) -> Unit
 ) {
 
-    val titles by remember {
-        derivedStateOf {
-            if (articles.itemCount > 10) {
-                articles.itemSnapshotList.items
-                    .slice(IntRange(start = 0, endInclusive = 9))
-                    .joinToString(separator = " \uD83D\uDFE5 ") { it.title }
-            } else {
-                ""
-            }
-        }
-    }
+    val articles = remember { loadArticlesFromJson(context)}
 
     Column(
         modifier = Modifier
@@ -97,15 +89,6 @@ fun HomeScreen(
 
         val scrollState = rememberScrollState(initial = state.scrollValue)
 
-        Text(
-            text = titles, modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = MediumPadding1)
-                .horizontalScroll(scrollState, enabled = false),
-            fontSize = 12.sp,
-            color = colorResource(id = R.color.placeholder)
-        )
-
         // Update the maxScrollingValue
         LaunchedEffect(key1 = scrollState.maxValue) {
             event(HomeEvent.UpdateMaxScrollingValue(scrollState.maxValue))
@@ -135,7 +118,7 @@ fun HomeScreen(
 
         ArticlesList(
             modifier = Modifier.padding(horizontal = MediumPadding1),
-            articles = articles,
+            context = context,
             onClick = navigateToDetails
         )
     }

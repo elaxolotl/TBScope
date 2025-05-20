@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import com.loc.newsapp.R
@@ -41,6 +42,7 @@ fun BookmarkScreen(
         Spacer(modifier = Modifier.height(MediumPadding1))
 
         ArticlesList(
+            modifier = Modifier.fillMaxSize(),
             articles = state.articles,
             onClick = navigateToDetails
         )

@@ -1,5 +1,6 @@
 package com.loc.newsapp.presentation.common
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -16,13 +18,16 @@ import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.presentation.Dimens.ExtraSmallPadding2
 import com.loc.newsapp.presentation.Dimens.MediumPadding1
 import com.loc.newsapp.presentation.home.components.ArticleCard
+import com.loc.newsapp.util.loadArticlesFromJson
 
 @Composable
 fun ArticlesList(
     modifier: Modifier = Modifier,
-    articles: List<Article>,
+    context: Context,
     onClick: (Article) -> Unit
 ) {
+    val articles = remember { loadArticlesFromJson(context) }
+
     if (articles.isEmpty()){
         EmptyScreen()
     }
@@ -68,6 +73,29 @@ fun ArticlesList(
         }
     }
 }
+@Composable
+fun ArticlesList(
+    modifier: Modifier = Modifier,
+    articles: List<Article>,
+    onClick: (Article) -> Unit
+) {
+    if (articles.isEmpty()) {
+        EmptyScreen()
+    } else {
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(MediumPadding1),
+            contentPadding = PaddingValues(all = ExtraSmallPadding2)
+        ) {
+            items(
+                count = articles.size,
+            ) {
+                ArticleCard(article = articles[it], onClick = { onClick(articles[it]) })
+            }
+        }
+    }
+}
+
 
 @Composable
 fun handlePagingResult(articles: LazyPagingItems<Article>): Boolean {
